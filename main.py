@@ -30,8 +30,8 @@ def obter_numero_telefone(empresa, cidade):
 
 # Ler dados da planilha Excel
 dados = pd.read_excel('Caminho/para/planilha.xlsx')  # Caminho para o arquivo Excel
-empresas = dados['COLUNA X'].tolist() 
-cidades = dados['COLUNA Y'].tolist()
+empresas = dados['COLUNA X'].tolist() # Selecionar coluna com os nomes de empresas
+cidades = dados['COLUNA Y'].tolist()  # Selecionar coluna com os nomes das cidades
 
 # Criar uma lista para armazenar os resultados
 resultados = []
