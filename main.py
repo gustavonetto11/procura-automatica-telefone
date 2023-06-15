@@ -7,18 +7,18 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def obter_numero_telefone(empresa, cidade):
     # Inicializa o serviço do ChromeDriver
-    service = Service('C:/Users/User/AppData/Local/Programs/Python/Python311/chromedriver.exe')
+    service = Service('Caminho/para/chromedriver.exe')
     options = webdriver.ChromeOptions()
-    #options.add_argument('--headless') # Argumento para não abrir uma janela
+    options.add_argument('--headless') # Argumento para não abrir uma janela
     driver = webdriver.Chrome(service=service, options=options)
-
+    
+    # Pesquisa diretamente via url
     pesquisa = empresa + ' ' + cidade
-
     url = 'https://www.google.com/search?q='
     driver.get(url + pesquisa)   
     
     try: 
-        WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.CLASS_NAME, 'LrzXr.zdqRlf.kno-fv')))
+        WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.CLASS_NAME, 'LrzXr.zdqRlf.kno-fv'))) # Esperar até a classe desejada apareça
         elemento_resultado = driver.find_element(By.CLASS_NAME, 'LrzXr.zdqRlf.kno-fv')  # Essa é a classe específica para os telefones nos resultados do Google
         numero_telefone = elemento_resultado.text
     except:
@@ -26,12 +26,12 @@ def obter_numero_telefone(empresa, cidade):
     
     driver.quit()
     
-    return numero_telefone
+    return numero_telefone 
 
 # Ler dados da planilha Excel
-dados = pd.read_excel('C:/Users/User/Desktop/AutoSearchPhone/ILHEUS_JUN23_Pt2.xlsx')  # Caminho para o arquivo Excel
-empresas = dados['Nome Fantasia'].tolist()
-cidades = dados['Município'].tolist()
+dados = pd.read_excel('Caminho/para/planilha.xlsx')  # Caminho para o arquivo Excel
+empresas = dados['COLUNA X'].tolist() 
+cidades = dados['COLUNA Y'].tolist()
 
 # Criar uma lista para armazenar os resultados
 resultados = []
@@ -45,4 +45,4 @@ for empresa, cidade in zip(empresas, cidades):
 df = pd.DataFrame(resultados)
 
 # Salvar os dados em um arquivo Excel
-df.to_excel('C:/Users/User/Desktop/AutoSearchPhone/resultados_telefone.xlsx', index=False)
+df.to_excel('Caminho/para/resultados.xlsx', index=False)
